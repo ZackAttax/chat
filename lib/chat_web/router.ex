@@ -18,6 +18,7 @@ defmodule ChatWeb.Router do
     pipe_through :browser
 
     live "/", HomeLive, :home
+    live "/:topic_name", TopicLive, :topic_page
   end
 
   # Other scopes may use custom stacks.
