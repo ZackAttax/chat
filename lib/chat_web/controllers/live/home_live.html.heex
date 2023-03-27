@@ -1,0 +1,14 @@
+<div class="flex">
+    <div class="mx-auto">
+        <.form
+            :let={f}
+            for={:changset}
+            id="topic-form"
+            phx-submit="goto_topic"
+        >
+            <.input field={{f, :topic}} value="" placeholder="Enter your topic name.." />
+            <br/>
+            <.button type="submit">Join Topic</.button>
+        </.form>
+    </div>
+</div>
