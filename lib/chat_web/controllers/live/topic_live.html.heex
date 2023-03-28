@@ -26,21 +26,50 @@
   <div class="mx-auto w-full max-w-7xl grow lg:flex xl:px-2">
     <!-- Left sidebar & main wrapper -->
     <%!-- LEFT SIDEBAR --%>
-    <%!-- <div class="flex-1 xl:flex"> --%>
-      <div class="border-b border-gray-200 py-6 px-4 sm:px-6 lg:pl-8 xl:w-64 xl:shrink-0 xl:border-b-0 xl:border-r xl:pl-6">
-        <!-- Left column area -->
-        LEFT COLUMN
+    <div class="flex-1 xl:flex">
+      <div class="py-6 px-4 sm:px-6 lg:pl-8 xl:w-64 xl:shrink-0">
+         <div id="user-list">
+            <p class="pb-4 mb-2">Logged in as: <span class="font-bold">Ryan</span></p>
+
+            <h3 class="font-bold pb-4 mb-4 border-b">Users online</h3>
+            <p class="py-1 font-medium">User 1</p>
+            <p class="py-1 font-medium">User 2</p>
+            <p class="py-1 font-medium">Etc</p>
+        </div>
       </div>
 
       <div class="py-6 px-4 sm:px-6 lg:pl-8 xl:flex-1 xl:pl-6">
-        <!-- Main area -->
-        MAIN
-      </div>
-    <%!-- </div> --%>
+        <ul role="list" class="divide-y divide-gray-200 max-h-screen h-3/5 overflow-auto">
+        <li class="relative bg-white py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50">
+            <div class="flex justify-between space-x-3">
+            <div class="min-w-0 flex-1">
+                <a href="#" class="block focus:outline-none">
+                <span class="absolute inset-0" aria-hidden="true"></span>
+                <p class="truncate text-sm font-medium text-gray-900 mb-4">Gloria Roberston</p>
+                </a>
+            </div>
+            </div>
+            <div class="mt-1">
+            <p class="text-sm text-gray-600 line-clamp-2">Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum eaque qui facilis. Numquam laudantium sed id dolores omnis in. Eos reiciendis deserunt maiores et accusamus quod dolor.</p>
+            </div>
+        </li>
 
-    <div class="shrink-0 border-t border-gray-200 py-6 px-4 sm:px-6 lg:w-96 lg:border-t-0 lg:border-l lg:pr-8 xl:pr-6">
+        <!-- More messages... -->
+        </ul>
+        <.form
+            for={@form}
+            id="chat-form"
+        >
+            <.input value="" name="chat_input" placeholder="Input your message..."/>
+
+        </.form>
+      </div>
+      <!-- end of main area -->
+    </div>
+
+    <div class="shrink-0 py-6 px-4 sm:px-6 lg:w-96 lg:pr-8 xl:pr-6">
       <!-- Right column area -->
-      RIGHT COLUMN
+      <h1 class="mb-4 pb-4 border-b">Currently in Topic: <strong><%=@topic_name%></strong></h1>
     </div>
   </div>
 </div>

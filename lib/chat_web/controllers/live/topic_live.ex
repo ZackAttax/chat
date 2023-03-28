@@ -2,9 +2,8 @@ defmodule ChatWeb.TopicLive do
   use ChatWeb, :live_view
   require Logger
 
-  def mount(params, _session, socket) do
-    Logger.info(params: params)
-    {:ok, assign(socket, form: to_form(%{}))}
+  def mount(%{"topic_name" => topic_name}, _session, socket) do
+    {:ok, assign(socket, topic_name: topic_name, form: to_form(%{}))}
   end
 
   def handle_event("goto_topic", %{"topic_name" => topic_name}, socket) do
