@@ -3,7 +3,8 @@ defmodule ChatWeb.TopicLive do
   require Logger
 
   def mount(%{"topic_name" => topic_name}, _session, socket) do
-    {:ok, assign(socket, topic_name: topic_name, form: to_form(%{}))}
+    username = AnonymousNameGenerator.generate_random()
+    {:ok, assign(socket, topic_name: topic_name, form: to_form(%{}), username: username)}
   end
 
   def handle_event("goto_topic", %{"topic_name" => topic_name}, socket) do
