@@ -32,35 +32,25 @@
             <p class="pb-4 mb-2">Logged in as: <span class="font-bold"><%= @username %></span></p>
 
             <h3 class="font-bold pb-4 mb-4 border-b">Users online</h3>
-            <p class="py-1 font-medium">User 1</p>
-            <p class="py-1 font-medium">User 2</p>
-            <p class="py-1 font-medium">Etc</p>
+            <%= for {_id, user_online} <- @streams.user_online do %>
+            <p class="py-1 font-medium"><%=@user_online.name %></p>
+            <% end %>
         </div>
       </div>
 
       <div class="py-6 px-4 sm:px-6 lg:pl-8 xl:flex-1 xl:pl-6">
-        <ul role="list" class="divide-y divide-gray-200 max-h-screen h-3/5 overflow-auto">
-        <li class="relative bg-white py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50">
-            <div class="flex justify-between space-x-3">
-            <div class="min-w-0 flex-1">
-                <a href="#" class="block focus:outline-none">
-                <span class="absolute inset-0" aria-hidden="true"></span>
-                <p class="truncate text-sm font-medium text-gray-900 mb-4">Gloria Roberston</p>
-                </a>
-            </div>
-            </div>
-            <div class="mt-1">
-            <p class="text-sm text-gray-600 line-clamp-2">Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum eaque qui facilis. Numquam laudantium sed id dolores omnis in. Eos reiciendis deserunt maiores et accusamus quod dolor.</p>
-            </div>
-        </li>
-
-        <!-- More messages... -->
+        <ul id="chat_data" role="list" class="divide-y divide-gray-200 max-h-screen h-4/5 overflow-auto" phx-update="stream" >
+            <%=for {_message_id, message_data} <- @streams.chat_data do %>
+            <.user_msg_heex msg={message_data}/>
+            <% end %>
         </ul>
         <.form
-            for={@form}
+            for={@chat}
             id="chat-form"
+            phx-submit="submit_message"
+            phx-change="message_change"
         >
-            <.input value="" name="chat_input" placeholder="Input your message..."/>
+            <.input value={@message} name="chat_input" placeholder="Input your message..."/>
 
         </.form>
       </div>
