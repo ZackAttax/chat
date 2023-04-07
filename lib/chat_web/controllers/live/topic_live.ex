@@ -4,11 +4,14 @@ defmodule ChatWeb.TopicLive do
 
   def mount(%{"topic_name" => topic_name}, _session, socket) do
     user = %{name: AnonymousNameGenerator.generate_random(), id: Base.encode64(:crypto.strong_rand_bytes(10))}
-    if(connected?(socket), do: ChatWeb.Endpoint.subscribe(topic_name))
+    if connected?(socket) do
+      ChatWeb.Endpoint.subscribe(topic_name)
+      ChatWeb.Presence.track(self(), topic_name, user[:name], %{})
+    end
 
     socket = socket
       |> stream(:chat_data, [])
-      |> stream(:user_online, [user])
+      |> assign(:users_online, [])
       |> assign(topic_name: topic_name)
       |> assign(chat: to_form(%{}))
       |> assign(username: user.name)
@@ -41,12 +44,19 @@ defmodule ChatWeb.TopicLive do
   end
 
   def handle_info(%{event: "new_message", payload: message_data}, socket) do
-    Logger.info(new_message: message_data)
     {:noreply, stream_insert(socket, :chat_data, message_data, at: -1)}
   end
 
+  def handle_info(%{event: "presence_diff"}, socket) do
+    users_online = ChatWeb.Presence.list(socket.assigns.topic_name) |> Map.keys()
+    Logger.info(presence_diff: users_online)
+    socket = socket
+      |> assign(users_online: users_online)
+
+    {:noreply, socket}
+  end
+
   def user_msg_heex(assigns) do
-    Logger.info(assign: assigns)
     ~H"""
     <li id={@msg.id} class="relative bg-white py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50">
       <div class="flex justify-between space-x-3">
