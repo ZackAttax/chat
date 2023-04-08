@@ -3,7 +3,11 @@ defmodule ChatWeb.TopicLive do
   require Logger
 
   def mount(%{"topic_name" => topic_name}, _session, socket) do
-    user = %{name: AnonymousNameGenerator.generate_random(), id: Base.encode64(:crypto.strong_rand_bytes(10))}
+    name = AnonymousNameGenerator.generate_random()
+      |> String.split("-")
+      |> Enum.map(fn word -> word |> String.capitalize() end)
+      |> Enum.join(" ")
+    user = %{name: name, id: Base.encode64(:crypto.strong_rand_bytes(10))}
     if connected?(socket) do
       ChatWeb.Endpoint.subscribe(topic_name)
       ChatWeb.Presence.track(self(), topic_name, user[:name], %{})
